@@ -62,6 +62,9 @@ public class App
 
         handle.setFilter(filter, BpfProgram.BpfCompileMode.OPTIMIZE);
 
+        PcapDumper dumper = handle.dumpOpen("captured_packets.pcap");
+
+
         int num = 0;
         while (true) {
             Packet packet = handle.getNextPacket();
@@ -81,7 +84,9 @@ public class App
                     String identifier = new String(echoPacket.getPayload().getRawData());
                     System.out.println(src);
                     System.out.println(identifier);
+                    dumper.dump(packet, handle.getTimestamp());
                 }
+
 
 
                // num++;
